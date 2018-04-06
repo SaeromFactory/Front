@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Welcome to C-TROL</title>
+    <!-- Bootstrap core CSS-->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom fonts for this template-->
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- Page level plugin CSS-->
+    <link href="../vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="../css/sb-admin.css" rel="stylesheet">
+
+
+    <script>
+        function lookclass(hello) {
+            console.log(hello)
+            console.log('jklsfjdklsjlakdf')
+            const num = $('#classnum').val()
+            const url = '/look_class_data/' + num
+            console.log('url:::', url)
+            $.ajax({
+                url: url,
+                type: 'get',
+                dataType: 'text',
+                success: (data) => {
+                    data = JSON.parse(data)
+                    let inner = '<table border=1>' + '<tr>'
+                    let fields = ['class', 'date', 'led', 'buz', 'fan', 'sound', 'temp', 'humid', 'light', 'mode']
+                    data.date = new Date(data.date)
+                    for (let field of fields) {
+                        inner += '<th>' + field + '</th>'
+                    }
+                    row = data
+                    inner += '</tr>'
+                    inner += '<tr>'
+                    for (let field2 of fields) {
+                        inner += '<td>' + row[field2] + '</td>'
+                    }
+                    inner += '</tr>'
+
+                    inner += '</table>'
+                    console.log(inner)
+                    $('#search_window').html(inner)
+                }
+            })
+        }
+        document.getElementById("lookclassbtn").addEventListener("click", lookclass, false);
+        console.log(document.getElementById("lookclassbtn"))
+
+    </script>
+</head>
+
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+        <a class="navbar-brand" href="/main">C-TROL </a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="강의실 조회">
+                    <a class="nav-link" href="/look_class" style="color:#fed136">
+            <i class="fa fa-fw fa-search" ></i>
+            <span class="nav-link-text">강의실 조회</span>
+          </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="강의실 제어">
+                    <a class="nav-link" href="/control_class">
+            <i class="fa fa-fw fa-wrench"></i>
+            <span class="nav-link-text">강의실 제어</span>
+          </a>
+                </li>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="통계 정보">
+                    <a class="nav-link" href="/chart_class">
+            <i class="fa fa-fw fa-bar-chart"></i>
+            <span class="nav-link-text">통계 정보</span>
+          </a>
+                </li>
+
+
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="회원 정보">
+                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-user"></i>
+            <span class="nav-link-text">회원 정보</span>
+          </a>
+                    <ul class="sidenav-second-level collapse" id="collapseComponents">
+                        <li>
+                            <a href="/look_inf">- 회원정보 조회</a>
+                        </li>
+                        <li>
+                            <a href="/change_inf">- 회원정보 수정</a>
+                        </li>
+                        <li>
+                            <a href="/delete_inf">- 회원 탈퇴</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="문의게시판">
+                    <a class="nav-link" href="/contact_list">
+            <i class="fa fa-fw fa-question-circle-o"></i>
+            <span class="nav-link-text">문의게시판</span>
+          </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav sidenav-toggler">
+                <li class="nav-item">
+                    <a class="nav-link text-center" id="sidenavToggler">
+            <i class="fa fa-fw fa-angle-left"></i>
+          </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
+            <i class="fa fa-fw fa-sign-out"></i> Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <div class="content-wrapper">
+        <div class="container-fluid">
+
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="#">강의실보기</a>
+                </li>
+            </ol>
+        </div>
+
+        <div class="card-header" style="width: 430px; margin-left: 45px; margin-top: 35px; border-radius: 2em; text-align: center;">
+            <h4 class="input_class">현재 조회 가능한 강의실</h4>
+            <%
+    for(var i=0; i<rows.length; i++)
+    {
+        var oneItem = rows[i];
+    %>
+                <%=oneItem.class_num%>호
+
+                    <%
+    }
+    %>
+        </div>
+
+
+        <div class="card-header" style="width: 500px; margin-left: 45px; margin-top: 35px; border-radius: 2em; text-align: center;">
+            <h4 class="input_class"> 보기를 원하는 강의실을 입력하세요 </h4>
+            <input type='text' id='classnum' values='test' style="margin-top: 10px;">
+            <button onclick='lookclass("hello")' id='lookclassbtn' value='조회' class="btn btn-primary btn-xl text-uppercase" style="font-family: 배달의민족 주아; margin-left: 10px;">조회</button>
+            <div id='search_window'>
+
+
+            </div>
+        </div>
+
+
+
+        <!— /.container-fluid—>
+        <!— /.content-wrapper—>
+        <footer class="sticky-footer">
+            <div class="container">
+                <div class="text-center">
+                    <small>Copyright © Team number 6 .2017</small>
+                </div>
+            </div>
+        </footer>
+        <!— Scroll to Top Button—>
+        <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fa fa-angle-up"></i>
+    </a>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">로그아웃 하시겠습니까?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+                    </div>
+                    <div class="modal-body">"Logout" 클릭 시 로그아웃 됩니다.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" href="/login">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!— Bootstrap core JavaScript—>
+        <script src="../vendor/jquery/jquery.min.js"></script>
+        <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!— Core plugin JavaScript—>
+        <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+        <!— Page level plugin JavaScript—>
+        <script src="../vendor/chart.js/Chart.min.js"></script>
+        <script src="../vendor/datatables/jquery.dataTables.js"></script>
+        <script src="../vendor/datatables/dataTables.bootstrap4.js"></script>
+        <!— Custom scripts for all pages—>
+        <script src="../js/sb-admin.min.js"></script>
+        <!— Custom scripts for this page—>
+        <script src="../js/sb-admin-datatables.min.js"></script>
+        <script src="../js/sb-admin-charts.min.js"></script>
+    </div>
+    </div>
+</body>
+
+</html>
