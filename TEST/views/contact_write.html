@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>WATCHERS-실종자조회</title>
+    <title>WATCHERS-문의글 작성</title>
     <!-- Bootstrap core CSS-->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom fonts for this template-->
@@ -17,8 +17,7 @@
     <link href="../vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
     <!-- Custom styles for this template-->
     <link href="../css/sb-admin.css" rel="stylesheet">
-
-
+    
 </head>
 
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
@@ -30,23 +29,23 @@
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+        <div class="collapse navbar-collapse" id="navbarResponsive" >
+            <ul class="navbar-nav navbar-sidenav" id="exampleAccordion" >
 
-                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="실종자 찾기">
+                <li class="nav-item" data-toggle="tooltip" data-placement="right" title="문의게시판">
                     <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
-            <i class="fa fa-fw fa-user" style="color:#4B48AE"></i>
-            <span class="nav-link-text" style="color:#fff"> 실종자 찾기</span>
+            <i class="fa fa-fw fa-user" ></i>
+            <span class="nav-link-text"> 실종자 찾기</span>
           </a>
                     <ul class="sidenav-second-level collapse" id="collapseComponents">
                         <li>
-                            <a href="/add_walking"> 걸음걸이 유사도 검사</a>
+                            <a href="/add_walking"> 걸음걸이 영상 등록</a>
                         </li>
                         <li>
                             <a href="manage_walking"> 걸음걸이 영상 관리</a>
                         </li>
                         <li>
-                            <a href="find_person.html" style="color:#fff;"> 실종자 조회 (현황)</a>
+                            <a href="find_person.html"> 실종자 조회 (현황)</a>
                         </li>
                     </ul>
                 </li>
@@ -70,8 +69,8 @@
 
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="문의게시판">
                     <a class="nav-link" href="/manager_contact_list">
-            <i class="fa fa-fw fa-question-circle-o"></i>
-            <span class="nav-link-text">문의게시판</span>
+            <i class="fa fa-fw fa-question-circle-o" style="color:#4B48AE"></i>
+            <span class="nav-link-text"  style="color:#fff;" >문의게시판</span>
           </a>
                 </li>
             </ul>
@@ -151,43 +150,91 @@
             <!-- Breadcrumbs-->
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    실종자 찾기
+                   문의게시판
+                <li class="breadcrumb-item active"><a href="#">게시판 목록</a></li>
                 </li>
-                <li class="breadcrumb-item active"><a href="#">실종자 조회(현황)</a></li>
             </ol>
-            <!-- Area Chart Example-->
-            <div class="card mb-3">
-                <div class="card-header">
-                    <i class="fa fa-area-chart"></i> Area Chart Example</div>
-                <div class="card-body">
-                    <canvas id="myAreaChart" width="100%" height="30"></canvas>
-                </div>
-                <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-            </div>
-            <div class="row">
-                <div class="col-lg-8">
-                    <!-- Example Bar Chart Card-->
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            <i class="fa fa-bar-chart"></i> Bar Chart Example</div>
-                        <div class="card-body">
-                            <canvas id="myBarChart" width="100" height="50"></canvas>
-                        </div>
-                        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <!-- Example Pie Chart Card-->
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            <i class="fa fa-pie-chart"></i> Pie Chart Example</div>
-                        <div class="card-body">
-                            <canvas id="myPieChart" width="100%" height="100"></canvas>
-                        </div>
-                        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-                    </div>
-                </div>
-            </div>
+            <!-- 문의게시판 -->
+            
+           
+  <section id="contact">
+      <div class="container">
+        <div class="row">
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <form action="/contact_write" method="post" onsubmit="return onWriteSubmit()">
+    <table class="table table-bordered" style="witdh:50%;">
+        <tr>
+            <th width=100 style="background-color: #ededed; text-align: center;">작성자</th>
+            <td style="width:100;"><input type="text" name="creator_id" id="creator_id" required/></td>
+        </tr>
+        <tr>
+            <th style="background-color: #ededed; text-align: center;">이메일</th>
+            <td><input type="text" name="mail" id="mail" required/></td>
+        </tr>
+        <tr>
+            <th style="background-color: #ededed; text-align: center;">제목</th>
+            <td><input type="text" name="title" id="title" required/></td>
+        </tr>
+        <tr>
+            <th style="background-color: #ededed; text-align: center;">내용</th>
+            <td><textarea name="content" id="content" cols="30" rows="10" required></textarea></td>
+        </tr>
+        <tr>
+            <th colspan="2">
+                 <button type="submit" class="btn btn-primary btn-xl text-uppercase">작성하기</button>
+            </th>
+        </tr>
+    </table>
+</form>
+
+<script>
+    function onWriteSubmit()
+    {
+        if ( $("#creator_id").val().trim() == "" )
+        {
+            var message = "아이디를 입력해 주세요";
+            $("#creator_id").val("");
+            $("#creator_id").focus();
+            alert(message);
+            return false;
+        }
+        
+        if ( $("#mail").val().trim() == "" )
+        {
+            var message = "이메일을 입력해 주세요";
+            $("#mail").val("");
+            $("#mail").focus();
+            alert(message);
+            return false;
+        }
+
+        if ( $("#title").val().trim() == "" )
+        {
+            var message = "제목을 입력해 주세요";
+            $("#title").val("");
+            $("#title").focus();
+            alert(message);
+            return false;
+        }
+
+        if ( $("#content").val().trim() == "" )
+        {
+            var message = "본문 내용을 입력해 주세요";
+            $("#content").val("");
+            $("#content").focus();
+            alert(message);
+            return false;
+        }
+
+    }
+</script>
+          </div>
+        </div>
+      </div>
+    </section>
+            
         </div>
         <!-- /.container-fluid-->
         <!-- /.content-wrapper-->
